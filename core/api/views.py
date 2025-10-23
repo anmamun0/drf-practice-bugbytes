@@ -3,7 +3,8 @@ from api.serializers import ProductSerializer
 from api.models import Product,  Order, OrderItem
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from api.serializers import ProductSerializer, OrderSerializer
+from api.serializers import ProductSerializer, OrderSerializer, ProductInfoSerializer
+from django.db.models import Max
 
 @api_view(['GET'])
 def product_list(request):
@@ -22,4 +23,16 @@ def product_detail(request, pk):
 def order_list(request):
     orders = Order.objects.all()
     serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def product_info(request):
+    products = Product.objects.all()
+    serializer = ProductInfoSerializer({
+        'products': products,
+        'count': len(products),
+        'max_price': products.aggregate(max_price=Max('price'))['max_price']
+    })
+    # print(products.aggregate(max_price = Max('price'))) # return dictionary value
+    # {'max_price': Decimal('500.050000000000')}
     return Response(serializer.data)
