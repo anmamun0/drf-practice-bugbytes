@@ -33,6 +33,6 @@ def product_info(request):
         'count': len(products),
         'max_price': products.aggregate(max_price=Max('price'))['max_price']
     })
-    # print(products.aggregate(max_price = Max('price'))) # return dictionary value
+    # print(products.aggregate(max_price = Max('price'))) # return dictionary 
     # {'max_price': Decimal('500.050000000000')}
     return Response(serializer.data)
