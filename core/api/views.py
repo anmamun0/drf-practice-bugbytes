@@ -13,6 +13,22 @@ class ProductListAPIView(generics.ListAPIView):
     queryset = Product.objects.exclude(stock__gt=0)
     serializer_class = ProductSerializer
 
+# Also GET and POST Mehhod
+class ProductListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+# Just POST Method
+class ProductCreateAPIView(generics.CreateAPIView):
+
+    model = Product
+    serializer_class = ProductSerializer
+
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        return super().create(request, *args, **kwargs)
+
+
 # @api_view(['GET'])
 # def product_list(request):
 #     products = Product.objects.all()
