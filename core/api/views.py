@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from api.serializers import ProductSerializer, OrderSerializer, ProductInfoSerializer
 from django.db.models import Max
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
 from rest_framework.views import APIView
 
 class ProductListAPIView(generics.ListAPIView):
@@ -17,6 +17,12 @@ class ProductListAPIView(generics.ListAPIView):
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+    def get_permissions(self):
+        self.permission_classes = [AllowAny]
+        if self.request.method == 'POST':
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
 
 # Just POST Method
 class ProductCreateAPIView(generics.CreateAPIView):
