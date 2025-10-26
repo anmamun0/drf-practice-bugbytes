@@ -3,19 +3,38 @@
  
 ---
  
-**Official Docs:** [cdrf.co/3.11/rest_framework.viewsets/GenericViewSet](https://www.cdrf.co/3.11/rest_framework.viewsets/GenericViewSet.html)
+# Django REST Framework Notes
+
+## 1. Authentication
+
+**Official Documentation:**   [Authentication - DRF](https://www.django-rest-framework.org/api-guide/authentication/)  
+> Django REST Framework provides various authentication schemes to identify the user making a request.
+
+### 2. JWT Token Decode
+
+**Official Tool:**   [jwt.io](https://www.jwt.io/)  
+> JWT (JSON Web Token) can be decoded using this online tool to inspect payloads, header, and signature.
+
+ 
+### 3. Explanation Video
+
+**Video Tutorial (My Channel - anCoder):**   [JWT Authentication](https://youtu.be/DVKC9VdD_Zg?si=I5idBX4WeMmkg0M9)  
+
+> This video explains how JWT authentication works in Django REST Framework.
+
+ 
 
 <br>
+<br>
 
-**Explanation Video:** [JWT Authentication (anCoder)](https://youtu.be/DVKC9VdD_Zg?si=I5idBX4WeMmkg0M9)
+---
 
-JWT - Json Web Token Authentication 
+## JWT - Json Web Token Authentication 
 
 ### Installation Code
 ```shell
 pip install djangorestframework-simplejwt
 ```
-<br>
 
 
 ### In your settings.py:
