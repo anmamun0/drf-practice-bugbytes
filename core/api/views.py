@@ -17,6 +17,7 @@ class ProductListAPIView(generics.ListAPIView):
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    filterset_fields = ('name','price')
 
     def get_permissions(self):
         self.permission_classes = [AllowAny]
