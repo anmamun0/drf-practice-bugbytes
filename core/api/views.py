@@ -23,8 +23,9 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
     # filterset_fields = ('name','price')
     filterset_class = ProductFilter
-    filter_backends = [DjangoFilterBackend,filters.SearchFilter]
+    filter_backends = [DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter]
     search_fields = ['name','description'] # ?search=mamun
+    ordering_fields = ['name', 'price', 'stock']  # ?ordering=price  # ?ordering=-price 
     
 
 
