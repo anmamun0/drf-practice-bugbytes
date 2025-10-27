@@ -10,6 +10,9 @@ from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
 from rest_framework.views import APIView
 from .filters import ProductFilter
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+
 class ProductListAPIView(generics.ListAPIView):
     queryset = Product.objects.exclude(stock__gt=0)
     serializer_class = ProductSerializer
@@ -20,6 +23,10 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
     # filterset_fields = ('name','price')
     filterset_class = ProductFilter
+    filter_backends = [DjangoFilterBackend,filters.SearchFilter]
+    search_fields = ['name','description'] # ?search=mamun
+    
+
 
     def get_permissions(self):
         self.permission_classes = [AllowAny]
