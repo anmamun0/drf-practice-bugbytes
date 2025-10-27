@@ -2,6 +2,18 @@ import django_filters
 from django_filters import rest_framework as filters
 from .models import Product
 
+class InStockFilterBackend(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        return queryset.filter(stock__gt=0)
+
+# class ProductFilter(django_filters.FilterSet):
+#     class Meta:
+#         model = Product
+#         fields = {
+#             'name': ['iexact', 'icontains'], 
+#             'price': ['exact', 'lt', 'gt', 'range']
+#         }
+
 class ProductFilter(filters.FilterSet):
     # Char/Text Filters
     product_name = filters.CharFilter(

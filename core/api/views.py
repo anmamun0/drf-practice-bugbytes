@@ -8,7 +8,7 @@ from django.db.models import Max
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
 from rest_framework.views import APIView
-from .filters import ProductFilter
+from .filters import ProductFilter,InStockFilterBackend
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
@@ -23,7 +23,7 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
     # filterset_fields = ('name','price')
     filterset_class = ProductFilter
-    filter_backends = [DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter,InStockFilterBackend]
     search_fields = ['name','description'] # ?search=mamun
     ordering_fields = ['name', 'price', 'stock']  # ?ordering=price  # ?ordering=-price 
     
