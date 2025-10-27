@@ -12,6 +12,7 @@ from .filters import ProductFilter,InStockFilterBackend
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from rest_framework.pagination import PageNumberPagination
 
 class ProductListAPIView(generics.ListAPIView):
     queryset = Product.objects.exclude(stock__gt=0)
@@ -19,15 +20,18 @@ class ProductListAPIView(generics.ListAPIView):
 
 # Also GET and POST Mehhod
 class ProductListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Product.objects.all()
+    queryset = Product.objects.order_by('pk')
     serializer_class = ProductSerializer
     # filterset_fields = ('name','price')
     filterset_class = ProductFilter
     filter_backends = [DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter,InStockFilterBackend]
     search_fields = ['name','description'] # ?search=mamun
     ordering_fields = ['name', 'price', 'stock']  # ?ordering=price  # ?ordering=-price 
-    
-
+    pagination_class = [PageNumberPagination]
+    pagination_class.page_size = 2
+    pagination_class.page_query_param = 'pagenum' # default ?page=2 now ?pagenum=2
+    pagination_class.page_size_query_param = 'size' # if ?size=7 | will load 7 data 
+    pagination_class.max_page_size = 10000 # ?size= | its maximum 10000 data can load 
 
     def get_permissions(self):
         self.permission_classes = [AllowAny]
