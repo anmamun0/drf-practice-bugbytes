@@ -138,8 +138,20 @@ REST_FRAMEWORK = {
     ],
     # YOUR SETTINGS
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5
 }
+
+# DEFAULT_PAGINATION RESULT
+# {
+#     "count": 15, # all data count in database
+#     "next": "https://api.example.org/accounts/?page=4",
+#     "previous": "https://api.example.org/accounts/?page=2",
+#     "results": [
+#        …
+#     ]
+# }
 
 from datetime import timedelta
 
