@@ -13,6 +13,7 @@ from .filters import ProductFilter,InStockFilterBackend
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination,LimitOffsetPagination
+from .paginations import  CustomPageNumberPagination , CustomLimitOffsetPagination
 
 class ProductListAPIView(generics.ListAPIView):
     queryset = Product.objects.exclude(stock__gt=0)
@@ -33,9 +34,10 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     # pagination_class.page_size_query_param = 'size' # if ?size=7 | will load 7 data 
     # pagination_class.max_page_size = 10000 # ?size= | its maximum 10000 data can load 
     
-    pagination_class = LimitOffsetPagination # ?limit=100&offset=400
+    # pagination_class = LimitOffsetPagination # ?limit=100&offset=400
     # limit=100 → Show 100 records per request.
     # offset=400 → Skip the first 400 records, then start returning data from record 401 onward.
+    pagination_class = CustomPageNumberPagination  # only one class here
 
     def get_permissions(self):
         self.permission_classes = [AllowAny]
