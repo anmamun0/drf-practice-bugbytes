@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 from .filters import ProductFilter,InStockFilterBackend
 
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
+from rest_framework import filters , viewsets
 from rest_framework.pagination import PageNumberPagination,LimitOffsetPagination
 from .paginations import  CustomPageNumberPagination , CustomLimitOffsetPagination
 
@@ -87,6 +87,12 @@ class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class OrderListAPIView(generics.ListAPIView):
     queryset = Order.objects.prefetch_related('items__product')
     serializer_class = OrderSerializer
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.prefetch_related('items__product')
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
 
 # @api_view(['GET'])
 # def order_list(request):
