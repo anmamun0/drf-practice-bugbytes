@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 
 from api.models import Order, OrderItem, Product
 from api.serializers import (OrderSerializer, ProductInfoSerializer,
-                             ProductSerializer)
+                             ProductSerializer,OrderCreateSerializer)
 
 from .filters import InStockFilterBackend, OrderFilter, ProductFilter
 from .paginations import (CustomLimitOffsetPagination,
@@ -98,6 +98,15 @@ class OrderViewSet(viewsets.ModelViewSet):
     pagination_class = None
     filter_backends = [DjangoFilterBackend]
     filterset_class = OrderFilter
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_serializer_class(self):
+        # can also check if POST: if self.request.method == 'POST'
+        if self.action == 'create':
+            return OrderCreateSerializer
+        return super().get_serializer_class()
 
     @action(
         detail=False,
