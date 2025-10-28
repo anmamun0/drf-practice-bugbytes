@@ -109,6 +109,12 @@ class OrderViewSet(viewsets.ModelViewSet):
         orders = self.get_queryset().filter(user=request.user)
         serializer = self.get_serializer(orders, many=True)
         return Response(serializer.data)
+    
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if not self.request.user.is_staff:
+            qs = qs.filter(user=self.request.user)
+        return qs
      
 
 # @api_view(['GET'])
