@@ -2,7 +2,7 @@ from django.db.models import Max
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, viewsets
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view ,action
 from rest_framework.pagination import (LimitOffsetPagination,
                                        PageNumberPagination)
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
@@ -98,8 +98,18 @@ class OrderViewSet(viewsets.ModelViewSet):
     pagination_class = None
     filter_backends = [DjangoFilterBackend]
     filterset_class = OrderFilter
-    
-    
+
+    @action(
+        detail=False,
+        methods=['get'],
+        url_path='user-orders',
+        permission_classes=[IsAuthenticated]
+    )
+    def user_orders(self, request):
+        orders = self.get_queryset().filter(user=request.user)
+        serializer = self.get_serializer(orders, many=True)
+        return Response(serializer.data)
+     
 
 # @api_view(['GET'])
 # def order_list(request):
