@@ -1,19 +1,22 @@
-from django.shortcuts import get_object_or_404
-from api.serializers import ProductSerializer
-from api.models import Product,  Order, OrderItem
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from api.serializers import ProductSerializer, OrderSerializer, ProductInfoSerializer
 from django.db.models import Max
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
-from rest_framework.views import APIView
-from .filters import ProductFilter,InStockFilterBackend,OrderFilter
-
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters , viewsets
-from rest_framework.pagination import PageNumberPagination,LimitOffsetPagination
-from .paginations import  CustomPageNumberPagination , CustomLimitOffsetPagination
+from rest_framework import filters, generics, viewsets
+from rest_framework.decorators import api_view
+from rest_framework.pagination import (LimitOffsetPagination,
+                                       PageNumberPagination)
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from api.models import Order, OrderItem, Product
+from api.serializers import (OrderSerializer, ProductInfoSerializer,
+                             ProductSerializer)
+
+from .filters import InStockFilterBackend, OrderFilter, ProductFilter
+from .paginations import (CustomLimitOffsetPagination,
+                          CustomPageNumberPagination)
+
 
 class ProductListAPIView(generics.ListAPIView):
     queryset = Product.objects.exclude(stock__gt=0)
