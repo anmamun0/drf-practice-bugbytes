@@ -8,7 +8,7 @@ from django.db.models import Max
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
 from rest_framework.views import APIView
-from .filters import ProductFilter,InStockFilterBackend
+from .filters import ProductFilter,InStockFilterBackend,OrderFilter
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters , viewsets
@@ -91,8 +91,12 @@ class OrderListAPIView(generics.ListAPIView):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.prefetch_related('items__product')
     serializer_class = OrderSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny] 
     pagination_class = None
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = OrderFilter
+    
+    
 
 # @api_view(['GET'])
 # def order_list(request):
