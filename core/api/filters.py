@@ -1,8 +1,9 @@
-import django_filters 
-from .models import Product,Order
-from rest_framework import filters 
+import django_filters
+from rest_framework.filters import BaseFilterBackend
+from django_filters import rest_framework as filters
+from .models import Product, Order
 
-class InStockFilterBackend(filters.BaseFilterBackend):
+class InStockFilterBackend(BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         return queryset.filter(stock__gt=0)
 
