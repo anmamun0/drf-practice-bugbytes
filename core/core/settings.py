@@ -206,9 +206,11 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle', # Anonymous user (guest) of limited request 
         'rest_framework.throttling.UserRateThrottle', # to limit requests from Authenticated users.
+        'rest_framework.throttling.ScopedRateThrottle', # to limit requests from Specific view and endpoint  
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '5/minute',  # guest user per minute 5 requests , 100/day
-        'user': '20/minute',  # authenticated user per minute 20 requests
+        'anon': '2/minute',  # guest user per minute 5 requests , 100/day
+        'user': '5/minute',  # authenticated user per minute 20 requests
+        'low': '3/day',     # specific view and endpoint reqeust per day 3   
     }
 }

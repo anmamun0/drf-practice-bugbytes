@@ -20,8 +20,12 @@ from .paginations import (CustomLimitOffsetPagination,
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers
+from rest_framework.throttling import ScopedRateThrottle
 
 class ProductListAPIView(generics.ListAPIView):
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope  = 'low'
+
     queryset = Product.objects.exclude(stock__gt=0)
     serializer_class = ProductSerializer
 
@@ -168,7 +172,7 @@ class ProductInfoAPIView(APIView):
         return Response(serializer.data)
 
 
-class UserListView(generics.ListAPIView):
+class UserListView(generics.ListAPIView): 
     queryset = User.objects.all()
     serializer_class = UserSerializer
     pagination_class = None
