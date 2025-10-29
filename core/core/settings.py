@@ -205,8 +205,10 @@ CACHES = {
 REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle', # Anonymous user (guest) of limited request 
+        'rest_framework.throttling.UserRateThrottle', # to limit requests from Authenticated users.
     ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': '5/minute',  # guest user per minute 5 requests , 100/day
+        'user': '20/minute',  # authenticated user per minute 20 requests
     }
 }
