@@ -17,6 +17,7 @@ urlpatterns = [
     # path('orders/', views.order_list),
     # path('products/info/', views.product_info),
     path('products/info/', views.ProductInfoAPIView.as_view()),
+     path('users/', views.UserListView.as_view()),
 ]
 
 router = DefaultRouter()
