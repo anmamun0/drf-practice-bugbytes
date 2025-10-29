@@ -17,6 +17,8 @@ from .filters import InStockFilterBackend, OrderFilter, ProductFilter
 from .paginations import (CustomLimitOffsetPagination,
                           CustomPageNumberPagination)
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 class ProductListAPIView(generics.ListAPIView):
     queryset = Product.objects.exclude(stock__gt=0)
@@ -164,7 +166,17 @@ class ProductInfoAPIView(APIView):
         })
         return Response(serializer.data)
 
+
 class UserListView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     pagination_class = None
+
+    @method_decorator(cache_page(60 * 15, key_prefix='user_list'))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()

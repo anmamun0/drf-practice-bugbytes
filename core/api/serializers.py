@@ -5,9 +5,10 @@ from django.db import transaction
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('password', 'user_permissions', 'is_authenticated', 'get_full_name', 'orders')
+        fields = ('password', 'user_permissions', 'is_authenticated', 'get_full_name',)
         # exclude = ('password', 'user_permissions')
         # fields = '__all__'
+        
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
