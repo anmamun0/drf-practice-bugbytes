@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Product, Order, OrderItem
-
+from django.db import transaction
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,7 +12,6 @@ class ProductSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Price must be greater than 0.")
         return value
 
-
 class OrderItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.name')
     product_price = serializers.DecimalField(
@@ -23,7 +22,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = ('product_name','product_price','quantity','item_subtotal')
-
         
 class OrderCreateSerializer(serializers.ModelSerializer):
     class OrderItemCreateSerializer(serializers.ModelSerializer):
@@ -33,6 +31,21 @@ class OrderCreateSerializer(serializers.ModelSerializer):
 
     order_id = serializers.UUIDField(read_only=True)
     items = OrderItemCreateSerializer(many=True)
+
+    def update(self, instance, validated_data):
+        orderitem_data = validated_data.pop('items')
+
+        with transaction.atomic():
+            instance = super().update(instance, validated_data)
+
+            if orderitem_data is not None:
+                # Clear existing items (optional, depends on requirements)
+                instance.items.all().delete()
+
+                # Recreate items with the updated data
+                for item in orderitem_data:
+                    OrderItem.objects.create(order=instance, **item)
+        return instance
 
     def create(self, validated_data):
         orderitem_data = validated_data.pop('items')
