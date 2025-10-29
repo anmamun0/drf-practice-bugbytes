@@ -21,6 +21,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers
 from rest_framework.throttling import ScopedRateThrottle
+from .throttles import BurstRateThrottle,SustainedRateThrottle
 
 class ProductListAPIView(generics.ListAPIView):
     throttle_classes = [ScopedRateThrottle]
@@ -31,6 +32,8 @@ class ProductListAPIView(generics.ListAPIView):
 
 # Also GET and POST Mehhod
 class ProductListCreateAPIView(generics.ListCreateAPIView):
+    throttle_classes = [BurstRateThrottle]
+
     queryset = Product.objects.order_by('pk')
     serializer_class = ProductSerializer
     # filterset_fields = ('name','price')
@@ -57,7 +60,8 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
 
 # Just POST Method
 class ProductCreateAPIView(generics.CreateAPIView):
-
+    throttle_classes = [SustainedRateThrottle]
+    
     model = Product
     serializer_class = ProductSerializer
 

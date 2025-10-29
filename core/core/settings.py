@@ -212,5 +212,7 @@ REST_FRAMEWORK = {
         'anon': '2/minute',  # guest user per minute 5 requests , 100/day
         'user': '5/minute',  # authenticated user per minute 20 requests
         'low': '3/day',     # specific view and endpoint reqeust per day 3   
+        'burst': '10/day',     # authenticated user - short-term request limiting.  
+        'sustained': '30/day', # authenticated user -  long-term request limiting.
     }
 }
