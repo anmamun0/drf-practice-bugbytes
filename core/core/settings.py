@@ -195,3 +195,18 @@ CACHES = {
 # the Redis server is not running locally. Uncomment and use
 # the Redis backend in production for better performance and
 # shared caching across multiple processes/servers.
+
+
+# -------------------------------------
+# Throttling 
+# -------------------------------------
+
+# settings.py
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle', # Anonymous user (guest) of limited request 
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '5/minute',  # guest user per minute 5 requests , 100/day
+    }
+}
