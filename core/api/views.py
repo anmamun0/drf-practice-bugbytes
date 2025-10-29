@@ -19,6 +19,7 @@ from .paginations import (CustomLimitOffsetPagination,
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
 
 class ProductListAPIView(generics.ListAPIView):
     queryset = Product.objects.exclude(stock__gt=0)
@@ -173,6 +174,7 @@ class UserListView(generics.ListAPIView):
     pagination_class = None
 
     @method_decorator(cache_page(60 * 15, key_prefix='user_list'))
+    @method_decorator(vary_on_headers("Authorization"))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
