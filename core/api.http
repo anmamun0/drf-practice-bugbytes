@@ -47,3 +47,8 @@ Content-Type: application/json
 {
 	"refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcyODQwOTAzMSwiaWF0IjoxNzI4MzIyNjMxLCJqdGkiOiI3ZjdmZDExNDhjZTg0Njk5YTdiYmY2OWZlNmRiMzczYSIsInVzZXJfaWQiOjF9.KRzvCrbOC_XbxFqjGWf9iTf4lhlnWAdddfCjp7dPrFM"
 }
+
+
+###
+GET http://localhost:8000/users
+ 

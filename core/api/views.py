@@ -174,7 +174,7 @@ class ProductInfoAPIView(APIView):
             'max_price': products.aggregate(max_price=Max('price'))['max_price']
         })
         return Response(serializer.data)
-
+from .tasks import send_email_task
 
 class UserListView(generics.ListAPIView): 
     queryset = User.objects.all()
@@ -184,6 +184,7 @@ class UserListView(generics.ListAPIView):
     @method_decorator(cache_page(60 * 15, key_prefix='user_list'))
     @method_decorator(vary_on_headers("Authorization"))
     def list(self, request, *args, **kwargs):
+        send_email_task.delay()
         return super().list(request, *args, **kwargs)
 
     def get_queryset(self):
