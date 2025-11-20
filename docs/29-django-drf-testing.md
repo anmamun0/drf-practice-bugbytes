@@ -15,6 +15,29 @@ Throttling is a mechanism to limit the rate of API requests from clients. It hel
  
 --- 
  
+<br>
+<br>
+<br>
+ 
+
+## Insallation 
+
+```shell
+pip install pytest pytest-django factory-boy Faker
+```
+## requirements.txt
+```json
+# Unit Test requirements
+pytest==8.4.0
+pytest-django==4.11.1
+
+pytest-cov==7.0.0
+factory_boy==3.3.3
+Faker==38.0.0 
+model_bakery==1.20.5
+model-mommy==2.0.0
+```
+
  <h6>
  
 # Django Test Classes — Full Comparison
@@ -169,20 +192,48 @@ It can be used to test `GET`, `POST`, `PUT`, `PATCH`, `DELETE` requests.
 
 ### Test Folder Structure (Recommended)
 
-```shell
-myapp/
-├── tests/
+```shell 
+
+myproject/
+├── manage.py
+├── myproject/
 │   ├── __init__.py
-│   ├── test_models.py
-│   ├── test_views.py
-│   ├── test_serializers.py
-│   └── test_api.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── myapp/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── views.py
+│   ├── serializers.py
+│   ├── urls.py
+│   ├── factories.py        # <-- Factory Boy factories
+│   └── tests/
+│       ├── __init__.py
+│       ├── test_models.py  # <-- model/unit tests
+│       ├── test_views.py   # <-- view/unit tests
+│       ├── test_serializers.py
+│       └── test_factories.py
+├── requirements.txt
+└── pytest.ini               # <-- pytest configuration
+
 ```
 
 
+pytest.ini 
+```ini
+[pytest]
+DJANGO_SETTINGS_MODULE = core.settings
+python_files = tests.py test_*.py *_tests.py
+addopts = --reuse-db -v
+```
+
 ### Run Terminal
 ```python
-python manage.py test
+python manage.py test  # default django test
+python manage.py pytest # pytest if use
 ```
 
 

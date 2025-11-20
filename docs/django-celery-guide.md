@@ -15,7 +15,7 @@ Redis is commonly used as a message broker and result backend for Celery.
 - **Django Celery Docs**: [docs.celeryq.dev/en/stable/django](https://docs.celeryq.dev/en/stable/django/)
 
 
-**Practice Code** : [Implement Testing APITestCas ](https://github.com/anmamun0/drf-practice-BugBytes/commit/ebab8e261c7b9516c3470b43a81afb159335be9d) <br>  
+**Practice Code** : [Implement Celery ](https://github.com/anmamun0/drf-practice-BugBytes/commit/70272ba6b7ff8f6f92246dabe6734374725c9fd2) <br>  
  
   
 --- 
